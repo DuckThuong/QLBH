@@ -9,6 +9,8 @@ import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product.entity';
 import { ProductImagesModule } from './product-images/product-images.module';
 import { ProductImage } from './product-images/entities/product-image.entity';
+import { ReviewsModule } from './reviews/reviews.module';
+import { Review } from './reviews/entities/review.entity';
 
 @Module({
   imports: [
@@ -19,13 +21,14 @@ import { ProductImage } from './product-images/entities/product-image.entity';
       username: 'root',
       password: '123456',
       database: 'qlbh',
-      entities: [User, Product, ProductImage],
+      entities: [User, Product, ProductImage, Review],
       synchronize: false,
       logging: true,
     }),
     UsersModule,
     ProductsModule,
     ProductImagesModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

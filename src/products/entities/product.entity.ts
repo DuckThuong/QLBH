@@ -1,4 +1,5 @@
 import { ProductImage } from 'src/product-images/entities/product-image.entity';
+import { Review } from 'src/reviews/entities/review.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -33,6 +34,9 @@ export class Product {
 
   @OneToMany(() => ProductImage, (productImage) => productImage.Product)
   images: ProductImage[];
+
+  @OneToMany(() => Review, (review) => review.product)
+  reviews: Review[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   CreatedAt: Date;
