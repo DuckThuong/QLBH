@@ -11,22 +11,23 @@ import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from './entities/review.entity';
+import { error } from 'console';
 
-@Controller('reviews')
+@Controller('api/reviews')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
   @Post()
   async CreateNewReview(@Body() createReviewDto: CreateReviewDto) {
     try {
       if (!createReviewDto.Comment) {
-        return { message: 'Thông tin người dùng không hợp lệ' };
+        return { error: 'Thông tin phản hồi không hợp lệ' };
       }
       const newReview =
         await this.reviewsService.CreateNewReview(createReviewDto);
-      return { message: 'Tạo người dùng thành công', newReview };
+      return { message: 'Tạo phản hồi thành công', newReview };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi tạo người dùng',
+        message: 'Có lỗi xảy ra khi tạo phản hồi',
         error: error.message,
       };
     }
@@ -38,14 +39,32 @@ export class ReviewsController {
       const ReviewList = await this.reviewsService.GetAllReview();
       if (ReviewList.length === 0) {
         return {
-          message: 'Không có người dùng nào trong danh sách',
+          message: 'Không có phản hồi nào trong danh sách',
           ReviewList,
         };
       }
-      return { message: 'Danh sách người dùng', ReviewList };
+      return { message: 'Danh sách phản hồi', ReviewList };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi lấy danh sách người dùng',
+        message: 'Có lỗi xảy ra khi lấy danh sách phản hồi',
+        error: error.message,
+      };
+    }
+  }
+  @Get('reviewByProduct/:id')
+  async getReviewByProductId(@Param('id') id: string) {
+    try {
+      const ReviewList = await this.reviewsService.getReviewByProductId(+id);
+      if (ReviewList.length === 0) {
+        return {
+          message: 'Không có phản hồi nào trong danh sách',
+          ReviewList,
+        };
+      }
+      return { message: 'Danh sách phản hồi', ReviewList };
+    } catch (error) {
+      return {
+        message: 'Có lỗi xảy ra khi lấy danh sách phản hồi',
         error: error.message,
       };
     }
@@ -56,12 +75,12 @@ export class ReviewsController {
     try {
       const ReviewById = await this.reviewsService.GetReviewById(+id);
       if (!ReviewById) {
-        return { message: 'Người dùng không tồn tại', ReviewById };
+        return { message: 'phản hồi không tồn tại', ReviewById };
       }
-      return { message: 'Người dùng được tìm thấy', ReviewById };
+      return { message: 'phản hồi được tìm thấy', ReviewById };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi lấy thông tin người dùng',
+        message: 'Có lỗi xảy ra khi lấy thông tin phản hồi',
         error: error.message,
       };
     }
@@ -72,12 +91,12 @@ export class ReviewsController {
     try {
       const ReviewById = await this.reviewsService.GetReviewById(+searchParams);
       if (!ReviewById) {
-        return { message: 'Người dùng không tồn tại', ReviewById };
+        return { message: 'phản hồi không tồn tại', ReviewById };
       }
-      return { message: 'Người dùng được tìm thấy', ReviewById };
+      return { message: 'phản hồi được tìm thấy', ReviewById };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi tìm kiếm người dùng',
+        message: 'Có lỗi xảy ra khi tìm kiếm phản hồi',
         error: error.message,
       };
     }
@@ -90,10 +109,10 @@ export class ReviewsController {
   ) {
     try {
       await this.reviewsService.UpdateReviewById(+id, updateReviewDto);
-      return { message: 'Cập nhật người dùng thành công' };
+      return { message: 'Cập nhật phản hồi thành công' };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi cập nhật người dùng',
+        message: 'Có lỗi xảy ra khi cập nhật phản hồi',
         error: error.message,
       };
     }
@@ -103,10 +122,10 @@ export class ReviewsController {
   async DeleteNewReviewById(@Param('id') id: string) {
     try {
       await this.reviewsService.DeleteNewReviewById(+id);
-      return { message: 'Xóa người dùng thành công' };
+      return { message: 'Xóa phản hồi thành công' };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi xóa người dùng',
+        message: 'Có lỗi xảy ra khi xóa phản hồi',
         error: error.message,
       };
     }

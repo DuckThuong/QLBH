@@ -17,8 +17,14 @@ export class ReviewsService {
     return this.ReviewRepository.save(createReview);
   }
 
+  async getReviewByProductId(productId: number): Promise<Review[]> {
+    return this.ReviewRepository.find({
+      where: { product: { ProductID: productId } },
+      relations: ['user'],
+    });
+  }
   async GetAllReview(): Promise<Review[]> {
-    return this.ReviewRepository.find({ relations: ['images'] });
+    return this.ReviewRepository.find();
   }
 
   async GetReviewById(ReviewID: number): Promise<Review> {
