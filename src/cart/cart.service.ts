@@ -36,7 +36,6 @@ export class CartService {
 
   async GetAllCart() {
     const carts = await this.CartRepository.find();
-    console.log(carts);
     return carts;
   }
 
