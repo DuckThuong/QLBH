@@ -8,7 +8,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Color } from 'src/colors/entities/color.entity';
+import { ProductColor } from 'src/product-colors/entities/product-color.entity';
 
 @Entity('Products')
 export class Product {
@@ -44,6 +48,13 @@ export class Product {
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   cartItems: CartItem[];
+
+  @ManyToMany(() => Color, (color) => color.products)
+  @JoinTable()
+  colors: Color[];
+
+  @OneToMany(() => ProductColor, (productColor) => productColor.product)
+  productColors: ProductColor[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   CreatedAt: Date;

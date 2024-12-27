@@ -17,6 +17,8 @@ import { Cart } from './cart/entities/cart.entity';
 import { CartItem } from './cart-items/entities/cart-item.entity';
 import { ProductColorsModule } from './product-colors/product-colors.module';
 import { ColorsModule } from './colors/colors.module';
+import { Color } from './colors/entities/color.entity';
+import { ProductColor } from './product-colors/entities/product-color.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,16 @@ import { ColorsModule } from './colors/colors.module';
       username: 'root',
       password: '123456',
       database: 'qlbh',
-      entities: [User, Product, ProductImage, Review, Cart, CartItem],
+      entities: [
+        User,
+        Product,
+        ProductImage,
+        Review,
+        Cart,
+        CartItem,
+        Color,
+        ProductColor,
+      ],
       synchronize: false,
       logging: false,
     }),
