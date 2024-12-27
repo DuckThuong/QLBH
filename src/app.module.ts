@@ -27,7 +27,7 @@ import { CartItem } from './cart-items/entities/cart-item.entity';
       database: 'qlbh',
       entities: [User, Product, ProductImage, Review, Cart, CartItem],
       synchronize: false,
-      logging: true,
+      logging: false,
     }),
     UsersModule,
     ProductsModule,

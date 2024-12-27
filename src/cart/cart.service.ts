@@ -34,15 +34,18 @@ export class CartService {
     );
   }
 
-  async GetAllCart(): Promise<Cart[]> {
-    return this.CartRepository.find();
+  async GetAllCart() {
+    const carts = await this.CartRepository.find();
+    console.log(carts);
+    return carts;
   }
 
-  async GetCartByUserId(userId: number): Promise<Cart> {
-    return this.CartRepository.findOne({
-      where: { user: { UserID: userId } },
+  async GetCartByUserId(userId: number): Promise<Cart[]> {
+    const cartByUser = await this.CartRepository.find({
+      where: { UserID: userId },
       relations: ['CartItems', 'CartItems.product', 'CartItems.product.images'],
     });
+    return cartByUser;
   }
 
   async GetCartByKeyWord(searchParams: Partial<Cart>): Promise<Cart> {
