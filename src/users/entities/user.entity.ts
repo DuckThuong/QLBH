@@ -1,4 +1,5 @@
 import { Review } from 'src/reviews/entities/review.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -48,4 +49,7 @@ export class User {
 
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];
+
+  @OneToMany(() => Cart, (cart) => cart.user)
+  carts: Cart[];
 }

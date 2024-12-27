@@ -1,5 +1,6 @@
 import { ProductImage } from 'src/product-images/entities/product-image.entity';
 import { Review } from 'src/reviews/entities/review.entity';
+import { CartItem } from 'src/cart-items/entities/cart-item.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -37,6 +38,9 @@ export class Product {
 
   @OneToMany(() => Review, (review) => review.product)
   reviews: Review[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
+  cartItems: CartItem[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   CreatedAt: Date;

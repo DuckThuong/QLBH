@@ -11,6 +11,10 @@ import { ProductImagesModule } from './product-images/product-images.module';
 import { ProductImage } from './product-images/entities/product-image.entity';
 import { ReviewsModule } from './reviews/reviews.module';
 import { Review } from './reviews/entities/review.entity';
+import { CartModule } from './cart/cart.module';
+import { CartItemsModule } from './cart-items/cart-items.module';
+import { Cart } from './cart/entities/cart.entity';
+import { CartItem } from './cart-items/entities/cart-item.entity';
 
 @Module({
   imports: [
@@ -21,7 +25,7 @@ import { Review } from './reviews/entities/review.entity';
       username: 'root',
       password: '123456',
       database: 'qlbh',
-      entities: [User, Product, ProductImage, Review],
+      entities: [User, Product, ProductImage, Review, Cart, CartItem],
       synchronize: false,
       logging: true,
     }),
@@ -29,6 +33,8 @@ import { Review } from './reviews/entities/review.entity';
     ProductsModule,
     ProductImagesModule,
     ReviewsModule,
+    CartModule,
+    CartItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
