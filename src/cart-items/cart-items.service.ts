@@ -24,8 +24,11 @@ export class CartItemsService {
     return `This action returns a #${id} cartItem`;
   }
 
-  update(id: number, updateCartItemDto: UpdateCartItemDto) {
-    return `This action updates a #${id} cartItem`;
+  async update(
+    id: number,
+    updateCartItemDto: UpdateCartItemDto,
+  ): Promise<void> {
+    await this.cartItemRepository.update(id, updateCartItemDto);
   }
 
   remove(id: number) {

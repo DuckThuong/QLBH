@@ -11,10 +11,15 @@ import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { Cart } from './entities/cart.entity';
+import { CartItemsService } from '../cart-items/cart-items.service';
+import { UpdateCartItemDto } from 'src/cart-items/dto/update-cart-item.dto';
 
 @Controller('api/cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService,
+    private readonly cartItemsService: CartItemsService,
+  ) {}
 
   @Post()
   async CreateNewCart(@Body() createCartDto: CreateCartDto) {
@@ -70,10 +75,10 @@ export class CartController {
   @Patch('update/:id')
   async UpdateCartById(
     @Param('id') id: string,
-    @Body() updateCartDto: UpdateCartDto,
+    @Body() updateCartDto: UpdateCartItemDto,
   ) {
     try {
-      await this.cartService.UpdateCartById(+id, updateCartDto);
+      await this.cartItemsService.update(+id, updateCartDto);
       return { message: 'Cập nhật giỏ hàng thành công' };
     } catch (error) {
       return {
