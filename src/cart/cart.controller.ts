@@ -39,10 +39,10 @@ export class CartController {
       if (CartList.length === 0) {
         return {
           message: 'Không có giỏ hàng nào trong danh sách',
-          CartList,
+          CartList: {},
         };
       }
-      return { message: 'Danh sách giỏ hàng', CartList };
+      return { message: 'Danh sách giỏ hàng', CartList: { items: CartList } };
     } catch (error) {
       return {
         message: 'Có lỗi xảy ra khi lấy danh sách giỏ hàng',

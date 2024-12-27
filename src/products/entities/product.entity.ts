@@ -33,6 +33,9 @@ export class Product {
   @Column({ nullable: true })
   CategoryID: number;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  Color?: string;
+
   @OneToMany(() => ProductImage, (productImage) => productImage.Product)
   images: ProductImage[];
 

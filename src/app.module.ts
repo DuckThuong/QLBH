@@ -15,6 +15,8 @@ import { CartModule } from './cart/cart.module';
 import { CartItemsModule } from './cart-items/cart-items.module';
 import { Cart } from './cart/entities/cart.entity';
 import { CartItem } from './cart-items/entities/cart-item.entity';
+import { ProductColorsModule } from './product-colors/product-colors.module';
+import { ColorsModule } from './colors/colors.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { CartItem } from './cart-items/entities/cart-item.entity';
     ReviewsModule,
     CartModule,
     CartItemsModule,
+    ProductColorsModule,
+    ColorsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -52,4 +52,8 @@ export class CreateProductDto {
 
   @IsOptional()
   UpdatedAt?: Date;
+
+  @IsString()
+  @IsOptional()
+  Color?: string;
 }

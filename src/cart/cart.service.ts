@@ -6,6 +6,10 @@ import { Cart } from './entities/cart.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartItem } from 'src/cart-items/entities/cart-item.entity';
 
+export interface CartWithItemsObject extends Omit<Cart, 'CartItems'> {
+  CartItems: { items: CartItem[] };
+}
+
 @Injectable()
 export class CartService {
   constructor(
@@ -39,12 +43,16 @@ export class CartService {
     return carts;
   }
 
-  async GetCartByUserId(userId: number): Promise<Cart[]> {
+  async GetCartByUserId(userId: number): Promise<CartWithItemsObject[]> {
     const cartByUser = await this.CartRepository.find({
       where: { UserID: userId },
       relations: ['CartItems', 'CartItems.product', 'CartItems.product.images'],
     });
-    return cartByUser;
+    const cartByUserWithObject = cartByUser.map((cart) => ({
+      ...cart,
+      CartItems: { items: cart.CartItems },
+    }));
+    return cartByUserWithObject;
   }
 
   async GetCartByKeyWord(searchParams: Partial<Cart>): Promise<Cart> {
