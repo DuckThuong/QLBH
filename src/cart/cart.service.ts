@@ -46,11 +46,25 @@ export class CartService {
   async GetCartByUserId(userId: number): Promise<CartWithItemsObject[]> {
     const cartByUser = await this.CartRepository.find({
       where: { UserID: userId },
-      relations: ['CartItems', 'CartItems.product', 'CartItems.product.images'],
+      relations: [
+        'CartItems',
+        'CartItems.product',
+        'CartItems.product.images',
+        'CartItems.product.productColors',
+        'CartItems.product.productColors.color',
+      ],
     });
     const cartByUserWithObject = cartByUser.map((cart) => ({
       ...cart,
-      CartItems: { items: cart.CartItems },
+      CartItems: {
+        items: cart.CartItems.map((item) => ({
+          ...item,
+          product: {
+            ...item.product,
+            colors: item.product.colors,
+          },
+        })),
+      },
     }));
     return cartByUserWithObject;
   }
