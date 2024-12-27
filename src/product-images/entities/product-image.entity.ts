@@ -1,4 +1,5 @@
 import { Product } from 'src/products/entities/product.entity';
+import { Color } from 'src/colors/entities/color.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -24,4 +25,13 @@ export class ProductImage {
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   CreatedAt: Date;
+
+  @Column({ type: 'int' })
+  ColorID: number;
+
+  @ManyToOne(() => Color, (color) => color.productImages, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'ColorID' })
+  color: Color;
 }

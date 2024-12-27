@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ProductColor } from 'src/product-colors/entities/product-color.entity';
+import { ProductImage } from 'src/product-images/entities/product-image.entity';
 
 @Entity('Colors')
 export class Color {
@@ -22,4 +23,7 @@ export class Color {
 
   @OneToMany(() => ProductColor, (productColor) => productColor.color)
   productColors: ProductColor[];
+
+  @OneToMany(() => ProductImage, (productImage) => productImage.color)
+  productImages: ProductImage[];
 }

@@ -19,12 +19,15 @@ export class ProductsService {
 
   async GetAllProduct(): Promise<Product[]> {
     return this.ProductRepository.find({
-      relations: ['images', 'productColors'],
+      relations: ['images', 'productColors', 'productColors.color'],
     });
   }
 
   async GetProductById(ProductID: number): Promise<Product> {
-    return this.ProductRepository.findOneBy({ ProductID });
+    return this.ProductRepository.findOne({
+      where: { ProductID },
+      relations: ['productColors', 'productColors.color'],
+    });
   }
 
   async GetProductByKeyWord(searchParams: Partial<Product>): Promise<Product> {

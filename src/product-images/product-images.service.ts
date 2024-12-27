@@ -28,6 +28,7 @@ export class ProductImagesService {
   async GetProductImageById(ProductID: number): Promise<ProductImage[]> {
     return this.ProductImageRepository.find({
       where: { Product: { ProductID } },
+      relations: ['color'],
     });
   }
 
