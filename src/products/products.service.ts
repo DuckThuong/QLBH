@@ -18,7 +18,9 @@ export class ProductsService {
   }
 
   async GetAllProduct(): Promise<Product[]> {
-    return this.ProductRepository.find({ relations: ['images'] });
+    return this.ProductRepository.find({
+      relations: ['images', 'productColors'],
+    });
   }
 
   async GetProductById(ProductID: number): Promise<Product> {
