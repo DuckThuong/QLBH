@@ -19,6 +19,8 @@ import { ProductColorsModule } from './product-colors/product-colors.module';
 import { ColorsModule } from './colors/colors.module';
 import { Color } from './colors/entities/color.entity';
 import { ProductColor } from './product-colors/entities/product-color.entity';
+import { PaymentsModule } from './payments/payments.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -50,6 +52,8 @@ import { ProductColor } from './product-colors/entities/product-color.entity';
     CartItemsModule,
     ProductColorsModule,
     ColorsModule,
+    PaymentsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

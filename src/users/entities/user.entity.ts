@@ -1,5 +1,6 @@
 import { Review } from 'src/reviews/entities/review.entity';
 import { Cart } from 'src/cart/entities/cart.entity';
+import { Order } from '../../orders/entities/order.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -52,4 +53,7 @@ export class User {
 
   @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 }
