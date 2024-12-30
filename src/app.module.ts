@@ -21,6 +21,9 @@ import { Color } from './colors/entities/color.entity';
 import { ProductColor } from './product-colors/entities/product-color.entity';
 import { PaymentsModule } from './payments/payments.module';
 import { OrdersModule } from './orders/orders.module';
+import { Order } from './orders/entities/order.entity';
+import { Payment } from './payments/entities/payment.entity';
+import { OrderDetailsModule } from './order-details/order-details.module';
 
 @Module({
   imports: [
@@ -40,6 +43,8 @@ import { OrdersModule } from './orders/orders.module';
         CartItem,
         Color,
         ProductColor,
+        Order,
+        Payment,
       ],
       synchronize: false,
       logging: false,
@@ -54,6 +59,7 @@ import { OrdersModule } from './orders/orders.module';
     ColorsModule,
     PaymentsModule,
     OrdersModule,
+    OrderDetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -20,14 +20,14 @@ export class PaymentsController {
   async CreateNewPayment(@Body() createPaymentDto: CreatePaymentDto) {
     try {
       if (!createPaymentDto.amount) {
-        return { message: 'Thông tin người dùng không hợp lệ' };
+        return { message: 'Thông tin phương thức thanh toán không hợp lệ' };
       }
       const newPayment =
         await this.paymentsService.CreateNewPayment(createPaymentDto);
-      return { message: 'Tạo người dùng thành công', newPayment };
+      return { message: 'Tạo phương thức thanh toán thành công', newPayment };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi tạo người dùng',
+        message: 'Có lỗi xảy ra khi tạo phương thức thanh toán',
         error: error.message,
       };
     }
@@ -39,14 +39,14 @@ export class PaymentsController {
       const PaymentList = await this.paymentsService.GetAllPayment();
       if (PaymentList.length === 0) {
         return {
-          message: 'Không có người dùng nào trong danh sách',
+          message: 'Không có phương thức thanh toán nào trong danh sách',
           PaymentList,
         };
       }
-      return { message: 'Danh sách người dùng', PaymentList };
+      return { message: 'Danh sách phương thức thanh toán', PaymentList };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi lấy danh sách người dùng',
+        message: 'Có lỗi xảy ra khi lấy danh sách phương thức thanh toán',
         error: error.message,
       };
     }
@@ -57,12 +57,12 @@ export class PaymentsController {
     try {
       const PaymentById = await this.paymentsService.GetPaymentById(+id);
       if (!PaymentById) {
-        return { message: 'Người dùng không tồn tại', PaymentById };
+        return { message: 'phương thức thanh toán không tồn tại', PaymentById };
       }
-      return { message: 'Người dùng được tìm thấy', PaymentById };
+      return { message: 'phương thức thanh toán được tìm thấy', PaymentById };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi lấy thông tin người dùng',
+        message: 'Có lỗi xảy ra khi lấy thông tin phương thức thanh toán',
         error: error.message,
       };
     }
@@ -74,12 +74,12 @@ export class PaymentsController {
       const PaymentById =
         await this.paymentsService.GetPaymentById(+searchParams);
       if (!PaymentById) {
-        return { message: 'Người dùng không tồn tại', PaymentById };
+        return { message: 'phương thức thanh toán không tồn tại', PaymentById };
       }
-      return { message: 'Người dùng được tìm thấy', PaymentById };
+      return { message: 'phương thức thanh toán được tìm thấy', PaymentById };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi tìm kiếm người dùng',
+        message: 'Có lỗi xảy ra khi tìm kiếm phương thức thanh toán',
         error: error.message,
       };
     }
@@ -92,10 +92,10 @@ export class PaymentsController {
   ) {
     try {
       await this.paymentsService.UpdatePaymentById(+id, updatePaymentDto);
-      return { message: 'Cập nhật người dùng thành công' };
+      return { message: 'Cập nhật phương thức thanh toán thành công' };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi cập nhật người dùng',
+        message: 'Có lỗi xảy ra khi cập nhật phương thức thanh toán',
         error: error.message,
       };
     }
@@ -105,10 +105,10 @@ export class PaymentsController {
   async DeleteNewPaymentById(@Param('id') id: string) {
     try {
       await this.paymentsService.DeleteNewPaymentById(+id);
-      return { message: 'Xóa người dùng thành công' };
+      return { message: 'Xóa phương thức thanh toán thành công' };
     } catch (error) {
       return {
-        message: 'Có lỗi xảy ra khi xóa người dùng',
+        message: 'Có lỗi xảy ra khi xóa phương thức thanh toán',
         error: error.message,
       };
     }

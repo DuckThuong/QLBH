@@ -3,16 +3,18 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
 
 @Entity('Payments')
 export class Payment {
   @PrimaryGeneratedColumn()
-  paymentID: number;
+  paymentId: number;
 
   @ManyToOne(() => Order, (order) => order.payments, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'orderID' })
   order: Order;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -21,20 +23,10 @@ export class Payment {
   @Column({
     type: 'enum',
     enum: ['Credit Card', 'PayPal', 'COD'],
-    nullable: false,
+    default: 'Credit Card',
   })
   paymentMethod: 'Credit Card' | 'PayPal' | 'COD';
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   amount: number;
-
-  @Column({
-    type: 'enum',
-    enum: ['Pending', 'Completed', 'Failed'],
-    default: 'Pending',
-  })
-  status: 'Pending' | 'Completed' | 'Failed';
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  description?: string;
 }

@@ -1,31 +1,31 @@
 import {
-  IsEnum,
   IsNotEmpty,
   IsNumber,
-  IsPositive,
-  IsOptional,
   IsString,
-  Min,
+  IsEnum,
+  IsDecimal,
 } from 'class-validator';
 
-export class CreatePaymentDto {
+export class CreateOrderDto {
   @IsNotEmpty()
   @IsNumber()
-  orderID: number;
+  userID: number; // ID của người dùng thực hiện đơn hàng.
 
   @IsNotEmpty()
-  @IsEnum(['Credit Card', 'PayPal', 'COD'], {
-    message: 'Payment method must be Credit Card, PayPal, or COD',
+  @IsDecimal()
+  totalAmount: number; // Tổng số tiền của đơn hàng.
+
+  @IsEnum(['Pending', 'Completed', 'Cancelled'], {
+    message: 'Status must be one of: Pending, Completed, Cancelled',
   })
-  paymentMethod: 'Credit Card' | 'PayPal' | 'COD';
+  status: 'Pending' | 'Completed' | 'Cancelled'; // Trạng thái của đơn hàng.
+
+  @IsEnum(['Credit Card', 'PayPal', 'COD'], {
+    message: 'Payment method must be one of: Credit Card, PayPal, COD',
+  })
+  paymentMethod: 'Credit Card' | 'PayPal' | 'COD'; // Phương thức thanh toán.
 
   @IsNotEmpty()
-  @IsNumber({ maxDecimalPlaces: 2 })
-  @IsPositive()
-  @Min(0)
-  amount: number;
-
-  @IsOptional()
   @IsString()
-  description?: string;
+  shippingAddress: string; // Địa chỉ giao hàng.
 }

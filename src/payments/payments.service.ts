@@ -21,8 +21,8 @@ export class PaymentsService {
     return this.PaymentRepository.find();
   }
 
-  async GetPaymentById(paymentID: number): Promise<Payment> {
-    return this.PaymentRepository.findOneBy({ paymentID });
+  async GetPaymentById(paymentId: number): Promise<Payment> {
+    return this.PaymentRepository.findOneBy({ paymentId });
   }
 
   async GetPaymentByKeyWord(searchParams: Partial<Payment>): Promise<Payment> {
