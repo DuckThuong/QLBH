@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('Orders')
@@ -16,6 +17,7 @@ export class Order {
   orderID: number;
 
   @ManyToOne(() => User, (user) => user.orders, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userID' })
   user: User;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
