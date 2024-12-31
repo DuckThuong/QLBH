@@ -25,6 +25,30 @@ export class OrdersService {
     return this.OrderRepository.findOneBy({ user: { UserID: userID } });
   }
 
+  async GetOrderByIdAndState(
+    userID: number,
+    state?: 'Pending' | 'Completed' | 'Cancelled',
+  ): Promise<Order[]> {
+    let orders: Order[];
+    if (!['Pending', 'Completed', 'Cancelled'].includes(state)) {
+      orders = await this.OrderRepository.find({
+        where: {
+          user: { UserID: userID },
+        },
+        relations: ['user'],
+      });
+    } else {
+      orders = await this.OrderRepository.find({
+        where: {
+          user: { UserID: userID },
+          status: state,
+        },
+        relations: ['user'],
+      });
+    }
+    return orders.length > 0 ? orders : [];
+  }
+
   async GetOrderByKeyWord(searchParams: Partial<Order>): Promise<Order> {
     return this.OrderRepository.findOneBy({
       ...searchParams,

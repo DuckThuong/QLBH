@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -51,7 +54,7 @@ export class OrdersController {
     }
   }
 
-  @Get(':id')
+  @Get('orderbyId/:id')
   async GetOrderById(@Param('id') id: string) {
     try {
       const OrderById = await this.ordersService.GetOrderById(+id);
@@ -109,6 +112,34 @@ export class OrdersController {
         message: 'Có lỗi xảy ra khi xóa đơn đặt hàng',
         error: error.message,
       };
+    }
+  }
+
+  @Get('by-state')
+  async getOrderByIdAndState(
+    @Query('userID') userID: number,
+    @Query('state') state?: 'Pending' | 'Completed' | 'Cancelled',
+  ) {
+    try {
+      const orders = await this.ordersService.GetOrderByIdAndState(
+        userID,
+        state,
+      );
+      if (!orders || orders.length === 0) {
+        throw new HttpException(
+          `Danh sách đơn hàng theo ${userID} và ${state} không được tìm thấy`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      return {
+        message: `Danh sách đơn hàng theo ${userID} và ${state} `,
+        orders,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Internal Server Error: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
