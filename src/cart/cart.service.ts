@@ -24,15 +24,25 @@ export class CartService {
       async (entityManager) => {
         const newCart = entityManager.create(Cart, createCartDto);
         await entityManager.save(Cart, newCart);
-
-        for (const item of createCartDto.CartItems) {
-          const cartItem = entityManager.create(CartItem, {
-            ...item,
-            CartID: newCart.CartID,
+        const cartItemsPromises = createCartDto.CartItems.map(async (item) => {
+          const existingCartItem = await this.CartItemRepository.findOne({
+            where: {
+              ProductID: item.ProductID,
+            },
           });
-          await entityManager.save(CartItem, cartItem);
-        }
+          if (existingCartItem) {
+            existingCartItem.Quantity += item.Quantity;
+            await entityManager.save(CartItem, existingCartItem);
+          } else {
+            const cartItem = entityManager.create(CartItem, {
+              ...item,
+              CartID: newCart.CartID,
+            });
+            await entityManager.save(CartItem, cartItem);
+          }
+        });
 
+        await Promise.all(cartItemsPromises);
         return newCart;
       },
     );
