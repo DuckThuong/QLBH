@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { Color } from 'src/colors/entities/color.entity';
 import { ProductColor } from 'src/product-colors/entities/product-color.entity';
+import { OrderDetail } from 'src/order-details/entities/order-detail.entity';
 
 @Entity('Products')
 export class Product {
@@ -62,4 +63,7 @@ export class Product {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   UpdatedAt: Date;
+
+  @OneToMany(() => OrderDetail, orderDetail => orderDetail.Product)
+  orderDetails: OrderDetail[];
 }

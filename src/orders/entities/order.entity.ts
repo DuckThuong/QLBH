@@ -10,6 +10,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
+import { OrderDetail } from 'src/order-details/entities/order-detail.entity';
 
 @Entity('Orders')
 export class Order {
@@ -51,4 +52,7 @@ export class Order {
 
   @OneToMany(() => Payment, (payment) => payment.order)
   payments: Payment[];
+
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.order)
+  orderDetails: OrderDetail[];
 }

@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { OrderDetail } from './entities/order-detail.entity';
 import { CreateOrderDetailDto } from './dto/create-order-detail.dto';
 import { UpdateOrderDetailDto } from './dto/update-order-detail.dto';
 
 @Injectable()
-export class OrderDetailsService {
-  create(createOrderDetailDto: CreateOrderDetailDto) {
-    return 'This action adds a new orderDetail';
+export class OrderDetailService {
+  constructor(
+    @InjectRepository(OrderDetail)
+    private readonly OrderDetailRepository: Repository<OrderDetail>,
+  ) {}
+
+  async CreateNewOrderDetail(
+    createOrderDetailDto: CreateOrderDetailDto,
+  ): Promise<OrderDetail> {
+    const createOrderDetail =
+      this.OrderDetailRepository.create(createOrderDetailDto);
+    return this.OrderDetailRepository.save(createOrderDetail);
   }
 
-  findAll() {
-    return `This action returns all orderDetails`;
+  async GetAllOrderDetail(): Promise<OrderDetail[]> {
+    return this.OrderDetailRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} orderDetail`;
+  async GetOrderDetailById(userID: number): Promise<OrderDetail> {
+    return this.OrderDetailRepository.findOne({
+      where: {
+        order: {
+          user: { UserID: userID },
+        },
+      },
+      relations: ['order', 'order.user'],
+    });
   }
 
-  update(id: number, updateOrderDetailDto: UpdateOrderDetailDto) {
-    return `This action updates a #${id} orderDetail`;
+  async GetOrderDetailByKeyWord(
+    searchParams: Partial<OrderDetail>,
+  ): Promise<OrderDetail> {
+    return this.OrderDetailRepository.findOneBy({
+      ...searchParams,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} orderDetail`;
+  async UpdateOrderDetailById(
+    id: number,
+    updateOrderDetailDto: UpdateOrderDetailDto,
+  ): Promise<void> {
+    await this.OrderDetailRepository.update(id, updateOrderDetailDto);
+  }
+
+  async DeleteNewOrderDetailById(id: number): Promise<void> {
+    await this.OrderDetailRepository.delete(id);
   }
 }

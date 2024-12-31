@@ -24,6 +24,7 @@ import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { Payment } from './payments/entities/payment.entity';
 import { OrderDetailsModule } from './order-details/order-details.module';
+import { OrderDetail } from './order-details/entities/order-detail.entity';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { OrderDetailsModule } from './order-details/order-details.module';
         ProductColor,
         Order,
         Payment,
+        OrderDetail,
       ],
       synchronize: false,
       logging: false,
