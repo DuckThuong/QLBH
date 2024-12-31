@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-
+import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(
@@ -40,5 +39,9 @@ export class UsersService {
 
   async DeleteNewUserById(id: number): Promise<void> {
     await this.userRepository.delete(id);
+  }
+
+  async findUserByEmail(Email: string): Promise<User> {
+    return this.userRepository.findOneBy({ Email });
   }
 }

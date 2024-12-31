@@ -6,15 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  Response,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('api/users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post()
   async CreateNewUser(@Body() createUserDto: CreateUserDto) {
@@ -31,7 +38,20 @@ export class UsersController {
       };
     }
   }
-
+  @Post('/login')
+  async login(@Body() loginDto: LoginDto, @Response() res) {
+    const user = await this.authService.validateUser(
+      loginDto.email,
+      loginDto.password,
+    );
+    if (!user) {
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: 'Invalid credentials' });
+    }
+    const token = await this.authService.generateJwtToken(user);
+    return res.json({ token, user });
+  }
   @Get()
   async GetAllUser() {
     try {
