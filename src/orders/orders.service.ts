@@ -35,7 +35,12 @@ export class OrdersService {
         where: {
           user: { UserID: userID },
         },
-        relations: ['user'],
+        relations: [
+          'user',
+          'orderDetails',
+          'orderDetails.Product',
+          'orderDetails.Product.images',
+        ],
       });
     } else {
       orders = await this.OrderRepository.find({
@@ -43,7 +48,12 @@ export class OrdersService {
           user: { UserID: userID },
           status: state,
         },
-        relations: ['user'],
+        relations: [
+          'user',
+          'orderDetails',
+          'orderDetails.Product',
+          'orderDetails.Product.images',
+        ],
       });
     }
     return orders.length > 0 ? orders : [];
